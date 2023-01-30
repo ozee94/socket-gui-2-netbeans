@@ -1,6 +1,7 @@
 package socket;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -30,7 +31,7 @@ public class SocketClient {
 		}
 	}
 
-	public boolean sendData(String data) throws IOException {
+	public boolean sendData(String data, String serviceType) throws IOException {
 		if (isConnected()) {
 			byte[] bytes = null;
 			String message = data;
@@ -39,8 +40,18 @@ public class SocketClient {
 			bytes = message.getBytes("UTF-8");
 			os.write(bytes);
 			os.flush();
+			LogPanel.setLog("SEND DATA 👉👉👉 " + serviceType + "\n===============================================\n"
+					+ data + "\n===============================================");
+
+			// 데이터 받을
+			InputStream is = socket.getInputStream();
+			bytes = new byte[200];
+			int readByteCount = is.read(bytes);
+			message = new String(bytes, 0, readByteCount, "UTF-8");
+			LogPanel.setLog("RECEIVED DATA 👇👇👇\n" + "byte : " + readByteCount + "\nmessage : " + message
+					+ "\n===============================================");
+			is.close();
 			os.close();
-			LogPanel.setLog("전문을 보내는데 성공했습니다");
 			return true;
 		} else {
 			return false;
@@ -75,7 +86,7 @@ public class SocketClient {
 			if (socket != null && socket.isConnected()) {
 				socket.close();
 				socket = null;
-				LogPanel.setLog(ip + ":" + port + " 연결 해제\n");
+				LogPanel.setLog(ip + ":" + port + " 연결 해제 ⭕️\n");
 			} else {
 				LogPanel.setLog("[❌] 현재 연결되어 있는 소켓이 없습니다");
 			}
@@ -84,12 +95,3 @@ public class SocketClient {
 		}
 	}
 }
-
-/*
- * // 데이터 받을 InputStream is = socket.getInputStream(); bytes = new byte[100];
- * int readByteCount = is.read(bytes); message = new String(bytes, 0,
- * readByteCount, "UTF-8"); System.out.println("[getData] " + message);
- *
- * os.close(); is.close();
- * 
- */

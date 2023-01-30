@@ -46,13 +46,13 @@ public class SocketConnectPanel {
 		lbIp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lbIp.setText("IP");
 
-		tfIp.setText("10.0.100.138");
+		tfIp.setText(ip);
 
 		lbPort.setForeground(new java.awt.Color(255, 255, 255));
 		lbPort.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lbPort.setText("PORT");
 
-		tfPort.setText("5331");
+		tfPort.setText(port + "");
 
 		jbConnect.setText("연결");
 		jbConnect.addActionListener(e -> connectServerSocket());

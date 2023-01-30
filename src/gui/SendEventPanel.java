@@ -62,7 +62,7 @@ public class SendEventPanel {
 		jbSend.setText("전문보내기");
 		jbSend.addActionListener(e -> sendData());
 
-		jtfMs.setText("3000");
+		jtfMs.setText("5000");
 
 		GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
@@ -136,6 +136,11 @@ public class SendEventPanel {
 	}
 
 	public void sendData() {
+		if (Integer.parseInt(jtfMs.getText()) <= 1000) {
+			LogPanel.setLog("[❌] 반복보내기의 주기는 1초 이후로 설정해야합니다");
+			return;
+		}
+
 		if (jbSend.getText().equals("전문보내기")) {
 			if (socket.isConnected()) {
 				if (isRepeat.isSelected()) {
@@ -157,18 +162,19 @@ public class SendEventPanel {
 	}
 
 	public void sendOnce(String data) {
+		final long timeInterval = Integer.parseInt(jtfMs.getText());
 		if (data.length() > 0) {
 			try {
-				boolean result = socket.sendData(data);
+				boolean result = socket.sendData(data, getData(false));
 				if (result) {
-					LogPanel.setLog(
-							"SEND DATA 👉👉👉 " + getData(false) + "\n===============================================\n"
-									+ data + "\n===============================================");
+					LogPanel.setLog("[⭕]전문을 보내는데 성공했습니다");
 				}
-				socket.disconnect();
+				LogPanel.setLog(((timeInterval / 1000) - 1) + "초 뒤 소켓 연결 해제");
+				setTimeout(() -> socket.disconnect(), (int) timeInterval - 1000);
 			} catch (IOException err) {
 				LogPanel.setLog("[❌] 전문을 보내는 실패했습니다.\n" + err.getMessage());
 			}
+
 		} else {
 			LogPanel.setLog("[❌] 전문내용을 입력해주세요");
 		}
@@ -212,5 +218,16 @@ public class SendEventPanel {
 
 	public JTabbedPane getTabPane() {
 		return tabPane;
+	}
+
+	public static void setTimeout(Runnable runnable, int delay) {
+		new Thread(() -> {
+			try {
+				Thread.sleep(delay);
+				runnable.run();
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}).start();
 	}
 }
