@@ -19,7 +19,7 @@ import socket.SocketClient;
 public class SocketConnectPanel {
 
 	SocketClient socket = SocketClient.getInstance();
-	String ip = "10.0.100.138";
+	String ip = "";
 	int port = 5331;
 
 	JPanel panel;
