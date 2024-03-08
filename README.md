@@ -12,4 +12,4 @@ TTA 인증에서 요구하는 5대 연계를 테스트하기 위한 소켓 통�
 
     
 ####
-<img style="width:75%;" src="https://ozee94.github.io/static/socket-gui-2-netbeans/product-img.png" />
+<img style="width:75%;" src="https://ozee94.git hub.io/static/socket-gui-2-netbeans/product-img.png" />
