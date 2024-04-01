@@ -22,7 +22,7 @@ TTA 인증에서 요구하는 5대 연계를 테스트하기 위한 소켓 통�
 <img style="width:75%;" src="https://ozee94.github.io/static/socket-gui-2-netbeans/product-img.png"/>
 
 <h4>시연화면</h3>
-<div>전송</div>
+<div>일회전송</div>
 <img style="width:75%;" src="https://ozee94.github.io/static/socket-gui-2-netbeans/video-socket-2-1.gif"/>
 
 <div>반복전송</div>
